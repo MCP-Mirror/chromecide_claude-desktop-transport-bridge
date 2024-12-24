@@ -1,3 +1,4 @@
+#!/usr/bin/env node
 
 import * as path from 'path';
 import { setupGlobalLogger, Logger } from './logger.js';
