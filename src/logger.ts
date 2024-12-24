@@ -1,4 +1,5 @@
 import * as fs from 'fs';
+import * as path from 'path';
 
 type LogLevel = 'debug' | 'info' | 'warn' | 'error';
 
@@ -91,7 +92,18 @@ class Logger {
 
     private writeToFile(message: string): void {
         if (this.options.outputFile) {
-            fs.appendFileSync(this.options.outputFile, message + '\n');
+            try {
+                // Ensure the directory exists
+                const dir = path.dirname(this.options.outputFile);
+                fs.mkdirSync(dir, { recursive: true });
+                
+                // Write to the file
+                fs.appendFileSync(this.options.outputFile, message + '\n');
+            } catch (error) {
+                // If we can't write to the file, log to console as fallback
+                console.error('Failed to write to log file:', error);
+                process.stderr.write(message + '\n');
+            }
         }
     }
 }
