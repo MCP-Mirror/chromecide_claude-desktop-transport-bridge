@@ -10,7 +10,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc && chmod +x dist/src/index.js",
+    "prebuild": "shx rm -rf dist",
+    "build": "tsc && shx mkdir -p dist/src/logs && chmod +x dist/src/index.js",
     "prepare": "npm run build",
     "watch": "tsc --watch"
   },
